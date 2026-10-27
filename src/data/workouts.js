@@ -1,5 +1,6 @@
 // Offline workout library and sample weekly plans for FITME.
 // Plans are general examples for healthy adults, not personalised or medical advice.
+import { SPECIALTY_EXERCISES, SPECIALTY_PLANS } from './specialtyTraining';
 
 export const MUSCLE_GROUPS = [
   { id: 'chest', name: 'Chest' },
@@ -10,6 +11,18 @@ export const MUSCLE_GROUPS = [
   { id: 'legs', name: 'Legs & Glutes' },
   { id: 'core', name: 'Core & Abs' },
   { id: 'compound', name: 'Compound & Variations' },
+  { id: 'cardio', name: 'Cardio & Conditioning' },
+];
+
+// Plan categories shown as a filter on the Workout tab. Original plans are 'strength'.
+export const PLAN_CATEGORIES = [
+  { id: 'strength', name: 'Strength & muscle' },
+  { id: 'hyrox', name: 'HYROX-style' },
+  { id: 'crossfit', name: 'CrossFit-style' },
+  { id: 'core', name: 'Six-pack abs' },
+  { id: 'fat-loss', name: 'Fat loss' },
+  { id: 'womens-cardio', name: "Women's cardio" },
+  { id: 'prenatal', name: 'Prenatal' },
 ];
 
 export const DIFFICULTY_LEVELS = [
@@ -1314,6 +1327,7 @@ export const EXERCISES = [
     ...ORIGINAL_METADATA[exercise.id],
   })),
   ...ADVANCED_EXERCISES.map((exercise) => ({ needsSpotter: false, ...exercise })),
+  ...SPECIALTY_EXERCISES.map((exercise) => ({ needsSpotter: false, secondaryMuscles: [], ...exercise })),
 ];
 
 // Short helper for plan entries: optional overrides for sets, reps, rest and warm-up sets.
@@ -1323,7 +1337,7 @@ function entry(exerciseId, sets, reps, restSeconds, warmupSets) {
 }
 
 // schedule lists Monday → Sunday; null means a rest day.
-export const WORKOUT_PLANS = [
+const STRENGTH_PLANS = [
   {
     id: 'beginner-3',
     name: 'Beginner 3-Day Full Body',
@@ -1857,6 +1871,18 @@ export const WORKOUT_PLANS = [
     schedule: ['abs-chest', 'abs-back', 'abs-shoulders', 'abs-legs', 'abs-arms-core', null, null],
   },
 ];
+
+// The original strength plans come first and are unchanged; specialty plans (HYROX-style, CrossFit-style,
+// core, fat loss, women's cardio, prenatal) follow. Optional plan fields: notes, safetyNotice,
+// clearanceNotice, requiresClearance. Optional day fields: format, warmup, cooldown, scaling.
+export const WORKOUT_PLANS = [
+  ...STRENGTH_PLANS.map((plan) => ({ category: 'strength', ...plan })),
+  ...SPECIALTY_PLANS,
+];
+
+export function getPlanCategoryName(plan) {
+  return PLAN_CATEGORIES.find((category) => category.id === plan?.category)?.name ?? '';
+}
 
 export const DEFAULT_PLAN_ID = 'beginner-3';
 

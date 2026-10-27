@@ -12,6 +12,7 @@ import {
 } from '../src/data/dietPlans.js';
 import { DEFAULT_DEADLIFT_PLAN } from '../src/data/deadlift.js';
 import { DEMOS, getDemo } from '../src/data/exerciseDemos.js';
+import { PRENATAL_WARNING_SIGNS, SPECIALTY_EXERCISE_IDS } from '../src/data/specialtyTraining.js';
 import {
   addWorkingSet,
   buildDeadliftRecord,
@@ -37,10 +38,12 @@ import {
   EQUIPMENT_TYPES,
   EXERCISES,
   MUSCLE_GROUPS,
+  PLAN_CATEGORIES,
   WORKOUT_PLANS,
   filterExercises,
   getDayExercises,
   getEquipmentTypes,
+  getExerciseById,
   getScheduledDay,
 } from '../src/data/workouts.js';
 import {
@@ -62,6 +65,7 @@ import {
   getDayEntries,
   getSessionProgress,
   isDayCustomized,
+  isValidReps,
   moveEntry,
   removeEntry,
   resetDay,
@@ -70,6 +74,7 @@ import {
 } from '../src/storage/workoutLogic.js';
 import { formatDuration, formatTimer, getRecentDateKeys, getStartOfWeek, isValidDateKey, toDateKey } from '../src/utils/date.js';
 import { validateMeasurements, validateWeight } from '../src/utils/validation.js';
+import { calculateBmi, classifyAdultBmi, feetInchesToCm, parseBmiInputs, roundBmi } from '../src/utils/bmi.js';
 
 let passed = 0;
 const failures = [];
@@ -109,10 +114,10 @@ test('every exercise has complete information', () => {
   }
 });
 
-test('all 8 muscle groups exist and have at least 4 exercises', () => {
+test('the 8 original muscle groups are unchanged, cardio added last; each has at least 4 exercises', () => {
   assert.deepEqual(
     MUSCLE_GROUPS.map((group) => group.name),
-    ['Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps', 'Legs & Glutes', 'Core & Abs', 'Compound & Variations'],
+    ['Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps', 'Legs & Glutes', 'Core & Abs', 'Compound & Variations', 'Cardio & Conditioning'],
   );
   for (const group of MUSCLE_GROUPS) {
     const count = EXERCISES.filter((exercise) => exercise.muscle === group.id).length;
@@ -120,9 +125,9 @@ test('all 8 muscle groups exist and have at least 4 exercises', () => {
   }
 });
 
-test('original plans are preserved and three advanced plans were added', () => {
+test('original plans are preserved first, then the specialty plans', () => {
   assert.deepEqual(
-    WORKOUT_PLANS.map((plan) => [plan.id, plan.level, plan.daysPerWeek]),
+    WORKOUT_PLANS.slice(0, 7).map((plan) => [plan.id, plan.level, plan.daysPerWeek]),
     [
       ['beginner-3', 'Beginner', 3],
       ['beginner-4', 'Beginner', 4],
@@ -133,6 +138,24 @@ test('original plans are preserved and three advanced plans were added', () => {
       ['advanced-bro-5', 'Advanced', 5],
     ],
   );
+  assert.ok(WORKOUT_PLANS.slice(0, 7).every((plan) => plan.category === 'strength'));
+  assert.deepEqual(
+    WORKOUT_PLANS.slice(7).map((plan) => plan.id),
+    [
+      'hyrox-beginner-3',
+      'hyrox-intermediate-4',
+      'hyrox-advanced-5',
+      'crossfit-beginner-3',
+      'crossfit-intermediate-4',
+      'crossfit-advanced-5',
+      'core-abs-beginner-3',
+      'core-abs-intermediate-4',
+      'fat-loss-beginner-4',
+      'womens-cardio-beginner-3',
+      'prenatal-gentle-3',
+    ],
+  );
+  assert.equal(new Set(WORKOUT_PLANS.map((plan) => plan.id)).size, WORKOUT_PLANS.length, 'duplicate plan id');
   const ul = WORKOUT_PLANS.find((plan) => plan.id === 'advanced-ul-4');
   assert.deepEqual(ul.schedule.map(Boolean), [true, true, false, true, true, false, false]);
 });
@@ -192,6 +215,7 @@ test('plan schedules and day references are valid', () => {
       assert.ok(totalSets <= 24, `${day.id}: ${totalSets} sets in one session is too many`);
       for (const exercise of resolved) volume[exercise.muscle] = (volume[exercise.muscle] ?? 0) + exercise.sets;
     }
+    if (plan.category !== 'strength') continue; // the volume limits below are for hypertrophy plans
     for (const [muscle, sets] of Object.entries(volume)) {
       // "legs" groups quads, hamstrings, glutes and calves, so it gets a combined limit.
       const limit = muscle === 'legs' ? 36 : 22;
@@ -389,8 +413,11 @@ test('older saved active sessions are migrated without losing progress', () => {
 
 // ---------- Exercise demonstrations ----------
 test('every exercise has its own demonstration that draws inside the frame', () => {
+  // New specialty exercises have no demonstration yet and intentionally show the placeholder.
+  // Any other exercise without a demo is a mistake.
   const missing = EXERCISES.filter((exercise) => !DEMOS[exercise.id]).map((exercise) => exercise.id);
-  assert.deepEqual(missing, [], `no demo: ${missing.join(', ')}`);
+  const unexpected = missing.filter((id) => !SPECIALTY_EXERCISE_IDS.includes(id));
+  assert.deepEqual(unexpected, [], `no demo: ${unexpected.join(', ')}`);
   const unknown = Object.keys(DEMOS).filter((id) => !EXERCISES.some((exercise) => exercise.id === id));
   assert.deepEqual(unknown, [], `demo for unknown exercise: ${unknown.join(', ')}`);
   for (const [id, demo] of Object.entries(DEMOS)) {
@@ -410,6 +437,7 @@ test('every exercise has its own demonstration that draws inside the frame', () 
 
 test('missing demonstrations fall back to null (placeholder)', () => {
   assert.equal(getDemo('not-a-real-exercise'), null);
+  assert.equal(getDemo('cardio-skierg'), null);
   assert.ok(getDemo('compound-farmers-carry'));
 });
 
@@ -549,6 +577,89 @@ test('daily tip rotation is stable and never empty', () => {
   assert.notEqual(getDailyItem(FITNESS_TIPS, '2026-10-22'), getDailyItem(FITNESS_TIPS, '2026-10-23'));
   assert.ok(getDailyItem(MOTIVATION_QUOTES, 'garbage'));
   assert.equal(getDailyItem([], '2026-10-22'), '');
+});
+
+// ---------- Specialty training ----------
+test('every training style has plans; HYROX and CrossFit cover all three levels', () => {
+  for (const category of PLAN_CATEGORIES) {
+    assert.ok(WORKOUT_PLANS.some((plan) => plan.category === category.id), `${category.id} has no plan`);
+  }
+  for (const id of ['hyrox', 'crossfit']) {
+    const levels = WORKOUT_PLANS.filter((plan) => plan.category === id).map((plan) => plan.level).sort();
+    assert.deepEqual(levels, ['Advanced', 'Beginner', 'Intermediate'], id);
+  }
+});
+
+test('specialty plan entries are valid and editable within the app limits', () => {
+  for (const plan of WORKOUT_PLANS.filter((item) => item.category !== 'strength')) {
+    assert.ok(plan.notes?.length > 0 && plan.safetyNotice?.message, `${plan.id}: guidance`);
+    for (const day of plan.days) {
+      assert.ok(day.format && day.warmup && day.cooldown && day.scaling?.length > 0, `${day.id}: session guide`);
+      for (const item of day.exercises) {
+        assert.ok(getExerciseById(item.exerciseId), `${day.id}: unknown ${item.exerciseId}`);
+        assert.ok(isValidReps(item.reps), `${day.id}: reps "${item.reps}"`);
+        assert.ok(Number.isInteger(item.sets) && item.sets >= 1 && item.sets <= 10, `${day.id}: sets`);
+        assert.ok(item.restSeconds >= 15 && item.restSeconds <= 600 && item.restSeconds % 15 === 0, `${day.id}: rest`);
+      }
+    }
+  }
+});
+
+test('core and fat-loss plans state that spot reduction is not possible', () => {
+  for (const id of ['core-abs-beginner-3', 'core-abs-intermediate-4', 'fat-loss-beginner-4']) {
+    assert.match(WORKOUT_PLANS.find((plan) => plan.id === id).safetyNotice.message, /belly/i, id);
+  }
+});
+
+test('prenatal plan is gentle, needs clearance and shows warning signs', () => {
+  const plan = WORKOUT_PLANS.find((item) => item.category === 'prenatal');
+  assert.equal(plan.requiresClearance, true);
+  assert.match(plan.clearanceNotice.message, /clinician/i);
+  assert.match(plan.clearanceNotice.message, /trimester/i);
+  for (const sign of [/bleeding/i, /fluid/i, /chest pain/i, /faint/i, /contractions/i, /shortness of breath/i, /calf/i, /urgent/i]) {
+    assert.match(PRENATAL_WARNING_SIGNS, sign);
+  }
+  assert.equal(plan.safetyNotice.message, PRENATAL_WARNING_SIGNS);
+  for (const day of plan.days) {
+    for (const item of day.exercises) {
+      const exercise = getExerciseById(item.exerciseId);
+      assert.ok(exercise.levels.includes('beginner'), `${exercise.id} is not a beginner movement`);
+      assert.ok(!/lie on your back/i.test(exercise.instructions.join(' ')), `${exercise.id} is done lying on the back`);
+    }
+  }
+  assert.ok(!/lose weight|burn calories/i.test(plan.notes.join(' ')));
+});
+
+test('new plans can be saved as the chosen plan', () => {
+  const { value } = sanitizeSettings({ ...DEFAULT_SETTINGS, planId: 'hyrox-beginner-3' });
+  assert.equal(value.planId, 'hyrox-beginner-3');
+});
+
+// ---------- BMI ----------
+test('BMI formula, rounding and adult categories', () => {
+  assert.equal(roundBmi(calculateBmi(70, 175)), 22.9);
+  assert.equal(classifyAdultBmi(18.4).id, 'underweight');
+  assert.equal(classifyAdultBmi(18.5).id, 'healthy');
+  assert.equal(classifyAdultBmi(24.9).id, 'healthy');
+  assert.equal(classifyAdultBmi(24.96).id, 'overweight'); // shown as 25.0
+  assert.equal(classifyAdultBmi(29.9).id, 'overweight');
+  assert.equal(classifyAdultBmi(30).id, 'obesity');
+  assert.equal(calculateBmi(70, 0), null);
+  assert.equal(classifyAdultBmi(NaN), null);
+});
+
+test('BMI input validation, including feet and inches', () => {
+  assert.deepEqual(parseBmiInputs({ weightText: '70', heightMode: 'cm', cmText: '175' }).errors, {});
+  assert.ok(parseBmiInputs({ weightText: '', heightMode: 'cm', cmText: '175' }).errors.weight);
+  assert.ok(parseBmiInputs({ weightText: '5', heightMode: 'cm', cmText: '175' }).errors.weight);
+  assert.ok(parseBmiInputs({ weightText: '70', heightMode: 'cm', cmText: '1.75' }).errors.height); // metres, not cm
+  assert.ok(parseBmiInputs({ weightText: 'abc', heightMode: 'cm', cmText: '175' }).errors.weight);
+  const ftin = parseBmiInputs({ weightText: '70', heightMode: 'ftin', feetText: '5', inchesText: '9' });
+  assert.deepEqual(ftin.errors, {});
+  assert.equal(Math.round(ftin.heightCm * 10) / 10, 175.3);
+  assert.equal(feetInchesToCm(6, 0), 182.88);
+  assert.ok(parseBmiInputs({ weightText: '70', heightMode: 'ftin', feetText: '5', inchesText: '12' }).errors.height);
+  assert.ok(parseBmiInputs({ weightText: '70', heightMode: 'ftin', feetText: '5.5', inchesText: '' }).errors.height);
 });
 
 // ---------- Report ----------

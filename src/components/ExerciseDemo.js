@@ -8,11 +8,11 @@ import { buildArrow, buildFrame, buildGhost, easeInOut } from '../utils/pose';
 
 // Colour tokens used by pose primitives.
 const TOKENS = {
-  figure: colors.primary,
-  far: 'rgba(183, 255, 0, 0.45)',
-  ghost: 'rgba(255, 255, 255, 0.22)',
-  equip: '#C8C8C8',
-  equipDark: '#5F5F5F',
+  figure: colors.accent,
+  far: colors.accentMuted,
+  ghost: colors.ghost,
+  equip: colors.metal,
+  equipDark: colors.metalDark,
   arrow: colors.textPrimary,
 };
 
@@ -22,7 +22,7 @@ function PoseCanvas({ primitives, size }) {
   return (
     <View style={{ width: size, height: size }} pointerEvents="none">
       {primitives.map((prim, index) => {
-        const color = TOKENS[prim.color] ?? colors.primary;
+        const color = TOKENS[prim.color] ?? colors.accent;
         if (prim.kind === 'line') {
           const [x1, y1] = prim.a;
           const [x2, y2] = prim.b;
@@ -167,7 +167,7 @@ export default function ExerciseDemo({ exerciseId, name = 'exercise', size = 280
         <PoseCanvas primitives={[...buildFrame(demo, demo.hold ? 1 : progress), ...(playing ? [] : buildArrow(demo))]} size={size} />
         {demo.hold ? (
           <View style={styles.holdBadge}>
-            <Ionicons name="timer-outline" size={14} color={colors.onPrimary} />
+            <Ionicons name="timer-outline" size={14} color={colors.onAccent} />
             <Text style={styles.holdText}>Hold</Text>
           </View>
         ) : null}
@@ -183,7 +183,7 @@ export default function ExerciseDemo({ exerciseId, name = 'exercise', size = 280
             onPress={() => setPlaying((value) => !value)}
             style={({ pressed }) => [styles.playButton, pressed && styles.playPressed]}
           >
-            <Ionicons name={playing ? 'pause' : 'play'} size={18} color={colors.primary} />
+            <Ionicons name={playing ? 'pause' : 'play'} size={18} color={colors.accent} />
             <Text style={styles.playText}>{playing ? 'Pause' : 'Play'}</Text>
           </Pressable>
           <View style={styles.stills}>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   frame: {
-    backgroundColor: '#101010',
+    backgroundColor: colors.backgroundSecondary,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
-    backgroundColor: '#101010',
+    backgroundColor: colors.backgroundSecondary,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
@@ -247,12 +247,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
     paddingVertical: 2,
     borderRadius: radius.pill,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
   },
   holdText: {
     ...typography.caption,
     fontWeight: '800',
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   cue: {
     ...typography.bodyStrong,
@@ -268,14 +268,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     borderRadius: radius.pill,
     borderWidth: 1.5,
-    borderColor: colors.primary,
+    borderColor: colors.accent,
   },
   playPressed: {
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.accentSoft,
   },
   playText: {
     ...typography.bodyStrong,
-    color: colors.primary,
+    color: colors.accent,
   },
   stills: {
     flexDirection: 'row',

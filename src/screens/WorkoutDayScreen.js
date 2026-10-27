@@ -90,7 +90,11 @@ export default function WorkoutDayScreen({ navigation, route }) {
         <StatCard label="Duration" value={`~${day.estimatedMinutes}`} unit="min" />
       </StatRow>
 
-      {plan.level === 'Advanced' ? <Notice tone="warning" title="Advanced" message={ADVANCED_NOTICE} /> : null}
+      {plan.level === 'Advanced' && plan.category === 'strength' ? (
+        <Notice tone="warning" title="Advanced" message={ADVANCED_NOTICE} />
+      ) : null}
+      {plan.clearanceNotice ? <Notice {...plan.clearanceNotice} /> : null}
+      {plan.safetyNotice ? <Notice {...plan.safetyNotice} /> : null}
 
       <PrimaryButton
         title={isThisSessionActive ? 'Resume Session' : 'Start Session'}
@@ -104,6 +108,27 @@ export default function WorkoutDayScreen({ navigation, route }) {
         onPress={() => navigateSafely(navigation, ROUTES.EDIT_WORKOUT_DAY, { planId: plan.id, dayId: day.id })}
         accessibilityHint="Add or remove exercises and change sets, reps and rest"
       />
+
+      {day.format || day.warmup || day.cooldown || day.scaling ? (
+        <>
+          <SectionHeading title="Session guide" />
+          <FitnessCard>
+            <GuideItem label="How to do it" text={day.format} />
+            <GuideItem label="Warm-up" text={day.warmup} />
+            <GuideItem label="Cool-down" text={day.cooldown} />
+            {day.scaling?.length ? (
+              <View style={styles.guideItem}>
+                <Text style={styles.label}>Easier options</Text>
+                {day.scaling.map((tip) => (
+                  <Text key={tip} style={styles.body}>
+                    •  {tip}
+                  </Text>
+                ))}
+              </View>
+            ) : null}
+          </FitnessCard>
+        </>
+      ) : null}
 
       <SectionHeading title="Exercises" subtitle="Tap an exercise for form and safety tips" />
       {exercises.length === 0 ? (
@@ -149,13 +174,23 @@ export default function WorkoutDayScreen({ navigation, route }) {
   );
 }
 
+function GuideItem({ label, text }) {
+  if (!text) return null;
+  return (
+    <View style={styles.guideItem}>
+      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.body}>{text}</Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   header: {
     gap: spacing.xs,
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   title: {
     ...typography.title,
@@ -168,5 +203,8 @@ const styles = StyleSheet.create({
   },
   list: {
     gap: spacing.sm,
+  },
+  guideItem: {
+    gap: 2,
   },
 });

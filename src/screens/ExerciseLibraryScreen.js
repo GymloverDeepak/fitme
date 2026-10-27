@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   resultsRow: {
     flexDirection: 'row',

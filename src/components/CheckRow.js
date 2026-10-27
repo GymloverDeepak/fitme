@@ -14,7 +14,7 @@ export default function CheckRow({ label, detail, checked, onToggle, accessibili
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}
     >
       <View style={[styles.box, checked && styles.boxChecked]}>
-        {checked ? <Ionicons name="checkmark" size={18} color={colors.onPrimary} /> : null}
+        {checked ? <Ionicons name="checkmark" size={18} color={colors.onAccent} /> : null}
       </View>
       <View style={styles.text}>
         <Text style={[styles.label, checked && styles.labelChecked]}>{label}</Text>
@@ -34,20 +34,20 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
   },
   pressed: {
-    backgroundColor: colors.cardPressed,
+    backgroundColor: colors.surfacePressed,
   },
   box: {
     width: 26,
     height: 26,
-    borderRadius: 6,
+    borderRadius: radius.sm,
     borderWidth: 2,
     borderColor: colors.textSecondary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   boxChecked: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: colors.accent,
+    borderColor: colors.accent,
   },
   text: {
     flex: 1,

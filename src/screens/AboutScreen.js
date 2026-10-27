@@ -34,7 +34,7 @@ export default function AboutScreen() {
         {FEATURES.map((feature) => (
           <FitnessCard key={feature.title}>
             <View style={styles.featureRow}>
-              <Ionicons name={feature.icon} size={24} color={colors.primary} />
+              <Ionicons name={feature.icon} size={24} color={colors.accent} />
               <View style={styles.flex}>
                 <Text style={styles.featureTitle}>{feature.title}</Text>
                 <Text style={styles.caption}>{feature.text}</Text>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     letterSpacing: 4,
   },
   logoAccent: {
-    color: colors.primary,
+    color: colors.accent,
   },
   tagline: {
     ...typography.body,

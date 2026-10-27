@@ -286,7 +286,7 @@ export default function DeadliftScreen({ navigation }) {
                 onPress={() => confirmDelete(record)}
                 style={({ pressed }) => [styles.deleteButton, pressed && styles.pressed]}
               >
-                <Ionicons name="trash-outline" size={20} color={colors.danger} />
+                <Ionicons name="trash-outline" size={20} color={colors.error} />
               </Pressable>
             </View>
           ))}
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   title: {
     ...typography.title,
@@ -329,14 +329,14 @@ const styles = StyleSheet.create({
   },
   big: {
     ...typography.heading,
-    color: colors.primary,
+    color: colors.accent,
   },
   cardTitle: {
     ...typography.subheading,
   },
   accent: {
     ...typography.bodyStrong,
-    color: colors.primary,
+    color: colors.accent,
   },
   tableTitle: {
     marginTop: spacing.sm,
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   historyRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.border,
@@ -395,6 +395,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pressed: {
-    backgroundColor: colors.cardPressed,
+    backgroundColor: colors.surfacePressed,
   },
 });

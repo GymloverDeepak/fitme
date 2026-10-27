@@ -2,8 +2,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View } from 'react-native';
 
 import AboutScreen from '../screens/AboutScreen';
+import BmiScreen from '../screens/BmiScreen';
 import DeadliftScreen from '../screens/DeadliftScreen';
 import DeadliftSessionScreen from '../screens/DeadliftSessionScreen';
 import DeadliftSetupScreen from '../screens/DeadliftSetupScreen';
@@ -21,7 +23,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import WorkoutDayScreen from '../screens/WorkoutDayScreen';
 import WorkoutScreen from '../screens/WorkoutScreen';
 import WorkoutSessionScreen from '../screens/WorkoutSessionScreen';
-import { colors } from '../theme';
+import { colors, elevation, radius } from '../theme';
 import { ROUTES } from './routes';
 
 const Stack = createNativeStackNavigator();
@@ -31,12 +33,12 @@ const navigationTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    primary: colors.primary,
+    primary: colors.accent,
     background: colors.background,
-    card: colors.card,
+    card: colors.backgroundSecondary,
     text: colors.textPrimary,
     border: colors.border,
-    notification: colors.primary,
+    notification: colors.accent,
   },
 };
 
@@ -48,6 +50,16 @@ const TABS = [
   { name: ROUTES.SETTINGS, component: SettingsScreen, icon: 'settings', label: 'Settings' },
 ];
 
+// Active tab: filled icon on an electric-blue pill. Inactive: outline icon, muted grey.
+// Shape and fill change as well as colour, so the state is clear without relying on hue.
+function TabIcon({ icon, focused, color }) {
+  return (
+    <View style={[styles.iconPill, focused && styles.iconPillActive]}>
+      <Ionicons name={focused ? icon : `${icon}-outline`} size={22} color={color} />
+    </View>
+  );
+}
+
 function MainTabs() {
   return (
     <Tab.Navigator
@@ -55,10 +67,11 @@ function MainTabs() {
       backBehavior="firstRoute"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.textSecondary,
-        tabBarStyle: { backgroundColor: colors.card, borderTopColor: colors.border },
-        tabBarLabelStyle: { fontSize: 12, fontWeight: '600' },
+        tabBarStyle: styles.tabBar,
+        tabBarLabelStyle: styles.tabLabel,
+        tabBarItemStyle: styles.tabItem,
         tabBarHideOnKeyboard: true,
         sceneStyle: { backgroundColor: colors.background },
       }}
@@ -71,9 +84,7 @@ function MainTabs() {
           options={{
             title: tab.label,
             tabBarAccessibilityLabel: `${tab.label} tab`,
-            tabBarIcon: ({ focused, color, size }) => (
-              <Ionicons name={focused ? tab.icon : `${tab.icon}-outline`} size={size} color={color} />
-            ),
+            tabBarIcon: ({ focused, color }) => <TabIcon icon={tab.icon} focused={focused} color={color} />,
           }}
         />
       ))}
@@ -87,8 +98,8 @@ export default function AppNavigator() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: { backgroundColor: colors.background },
-          headerTintColor: colors.primary,
-          headerTitleStyle: { color: colors.textPrimary, fontWeight: '700' },
+          headerTintColor: colors.accent,
+          headerTitleStyle: { color: colors.textPrimary, fontWeight: '700', fontSize: 18 },
           headerShadowVisible: false,
           headerBackButtonDisplayMode: 'minimal',
           contentStyle: { backgroundColor: colors.background },
@@ -108,7 +119,36 @@ export default function AppNavigator() {
         <Stack.Screen name={ROUTES.DEADLIFT_SUMMARY} component={DeadliftSummaryScreen} options={{ title: 'Deadlift Summary' }} />
         <Stack.Screen name={ROUTES.ABOUT} component={AboutScreen} options={{ title: 'About FITME' }} />
         <Stack.Screen name={ROUTES.DESIGN_PREVIEW} component={DesignPreviewScreen} options={{ title: 'Design Preview' }} />
+        <Stack.Screen name={ROUTES.BMI} component={BmiScreen} options={{ title: 'BMI Calculator' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: colors.backgroundSecondary,
+    borderTopColor: colors.border,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: 6,
+    ...elevation.floating,
+  },
+  tabItem: {
+    minHeight: 48,
+  },
+  tabLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+  iconPill: {
+    width: 52,
+    height: 28,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconPillActive: {
+    backgroundColor: colors.accentSoft,
+  },
+});

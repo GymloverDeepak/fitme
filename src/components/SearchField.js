@@ -13,8 +13,8 @@ export default function SearchField({ value, onChangeText, placeholder = 'Search
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={colors.textSecondary}
-        selectionColor={colors.primary}
-        cursorColor={colors.primary}
+        selectionColor={colors.accent}
+        cursorColor={colors.accent}
         returnKeyType="search"
         autoCorrect={false}
         autoCapitalize="none"
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.card,
+    backgroundColor: colors.backgroundSecondary,
   },
   input: {
     flex: 1,

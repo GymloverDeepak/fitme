@@ -24,6 +24,7 @@ export const ROUTES = {
   DEADLIFT_SUMMARY: 'DeadliftSummary',
   ABOUT: 'About',
   DESIGN_PREVIEW: 'DesignPreview',
+  BMI: 'Bmi',
 };
 
 export const TAB_ROUTES = [ROUTES.HOME, ROUTES.WORKOUT, ROUTES.DIET, ROUTES.PROGRESS, ROUTES.SETTINGS];

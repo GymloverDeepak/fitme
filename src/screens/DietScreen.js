@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   list: {
     gap: spacing.md,

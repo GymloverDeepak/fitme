@@ -25,7 +25,7 @@ function ContactRow({ icon, value, url, accessibilityLabel, fallbackTitle }) {
       }
       style={({ pressed }) => [styles.contactRow, pressed && styles.pressed]}
     >
-      <Ionicons name={icon} size={18} color={colors.primary} />
+      <Ionicons name={icon} size={18} color={colors.accent} />
       <Text style={styles.contactText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85}>
         {value}
       </Text>
@@ -48,7 +48,7 @@ function SocialButton({ link }) {
       }
       style={({ pressed }) => [styles.socialButton, pressed && styles.socialPressed]}
     >
-      <Ionicons name={link.icon} size={24} color={colors.primary} />
+      <Ionicons name={link.icon} size={24} color={colors.accent} />
     </Pressable>
   );
 }
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   name: {
     ...typography.heading,
-    color: colors.primary,
+    color: colors.accent,
     fontWeight: '800',
     letterSpacing: 0.5,
   },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   pressed: {
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.accentSoft,
   },
   contactText: {
     ...typography.body,
@@ -151,12 +151,12 @@ const styles = StyleSheet.create({
     borderRadius: radius.pill,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
   },
   socialPressed: {
-    backgroundColor: colors.primarySoft,
-    borderColor: colors.primary,
+    backgroundColor: colors.accentSoft,
+    borderColor: colors.accent,
   },
 });

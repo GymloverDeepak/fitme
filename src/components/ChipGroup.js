@@ -35,23 +35,24 @@ const styles = StyleSheet.create({
     minHeight: layout.minTouchTarget,
     justifyContent: 'center',
     paddingHorizontal: spacing.lg,
-    borderRadius: radius.pill,
+    borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
   },
   chipSelected: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: colors.accent,
+    borderColor: colors.accent,
   },
   pressed: {
-    backgroundColor: colors.cardPressed,
+    backgroundColor: colors.surfacePressed,
+    borderColor: colors.accentMuted,
   },
   label: {
     ...typography.bodyStrong,
     color: colors.textPrimary,
   },
   labelSelected: {
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
 });

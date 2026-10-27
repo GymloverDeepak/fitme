@@ -5,7 +5,7 @@ import { colors } from '../theme';
 const LOGO = require('../../assets/images/gymlover-deepak-logo.png');
 
 // Gym Lover Deepak logo. The artwork is black on transparency, so it sits on a white circular
-// badge with a neon ring to stay visible on FITME's black background. The image itself is only
+// badge with an electric-blue ring to stay visible on FITME's midnight background. The image itself is only
 // scaled (resizeMode "contain"), never cropped, stretched or recoloured.
 export default function BrandLogo({ size = 72 }) {
   const ring = Math.max(2, Math.round(size * 0.03));
@@ -23,8 +23,8 @@ export default function BrandLogo({ size = 72 }) {
 
 const styles = StyleSheet.create({
   badge: {
-    backgroundColor: '#FFFFFF',
-    borderColor: colors.primary,
+    backgroundColor: colors.logoBadge,
+    borderColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',

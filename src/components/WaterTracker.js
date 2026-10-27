@@ -26,7 +26,11 @@ export default function WaterTracker() {
           of {goal} glasses · {waterToday * GLASS_SIZE_ML} / {goal * GLASS_SIZE_ML} ml
         </Text>
       </View>
-      <ProgressBar progress={waterToday / goal} accessibilityLabel="Water goal progress" />
+      <ProgressBar
+        progress={waterToday / goal}
+        tone={reachedGoal ? 'success' : 'accent'}
+        accessibilityLabel="Water goal progress"
+      />
       <View style={styles.buttons}>
         <SecondaryButton
           title="Glass"
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
   },
   goalReached: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.success,
   },
   valueRow: {
     flexDirection: 'row',
@@ -69,8 +73,10 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   value: {
-    ...typography.display,
-    color: colors.primary,
+    ...typography.metric,
+    fontSize: 32,
+    lineHeight: 38,
+    color: colors.accent,
   },
   unit: {
     ...typography.caption,

@@ -64,8 +64,8 @@ export default function LoadInput({
           placeholder={placeholder}
           placeholderTextColor={colors.textSecondary}
           selectTextOnFocus
-          selectionColor={colors.primary}
-          cursorColor={colors.primary}
+          selectionColor={colors.accent}
+          cursorColor={colors.accent}
           accessibilityLabel={accessibilityLabel ?? `${label ?? 'Weight'} in ${unit}`}
           style={styles.input}
         />
@@ -101,15 +101,15 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundSecondary,
     paddingHorizontal: spacing.sm,
   },
   inputError: {
-    borderColor: colors.danger,
+    borderColor: colors.error,
   },
   input: {
     flex: 1,
-    ...typography.bodyStrong,
+    ...typography.metricSmall,
     paddingVertical: spacing.xs,
   },
   unit: {
@@ -117,6 +117,6 @@ const styles = StyleSheet.create({
   },
   error: {
     ...typography.caption,
-    color: colors.danger,
+    color: colors.error,
   },
 });

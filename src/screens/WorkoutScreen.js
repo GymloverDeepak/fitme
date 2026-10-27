@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 
 import ChipGroup from '../components/ChipGroup';
 import FitnessCard from '../components/FitnessCard';
@@ -15,11 +15,13 @@ import {
   DIFFICULTY_LEVELS,
   EXERCISES,
   MUSCLE_GROUPS,
+  PLAN_CATEGORIES,
   RECOVERY_GUIDANCE,
   WEEKDAY_NAMES,
   WORKOUT_DISCLAIMER,
   WORKOUT_PLANS,
   getPlanById,
+  getPlanCategoryName,
   getPlanDay,
   getWeekdayIndex,
 } from '../data/workouts';
@@ -29,6 +31,7 @@ import { colors, spacing, typography } from '../theme';
 import { dateFromKey } from '../utils/date';
 
 const PLAN_LEVEL_OPTIONS = [{ id: 'all', name: 'All' }, ...DIFFICULTY_LEVELS];
+const PLAN_CATEGORY_OPTIONS = [{ id: 'all', name: 'All' }, ...PLAN_CATEGORIES];
 
 export default function WorkoutScreen({ navigation }) {
   const { settings, updateSettings, activeSession, todayKey, getDayExercisesFor, isDayCustom } = useAppState();
@@ -36,10 +39,30 @@ export default function WorkoutScreen({ navigation }) {
   const todayIndex = getWeekdayIndex(dateFromKey(todayKey));
   const activeDay = activeSession ? getPlanDay(activeSession.planId, activeSession.dayId).day : null;
   const [planLevel, setPlanLevel] = useState('all');
+  const [planCategory, setPlanCategory] = useState('all');
+  // The current plan always stays visible so the selection is never hidden by a filter.
   const visiblePlans = WORKOUT_PLANS.filter(
-    (option) => planLevel === 'all' || option.level.toLowerCase() === planLevel || option.id === plan.id,
+    (option) =>
+      option.id === plan.id ||
+      ((planLevel === 'all' || option.level.toLowerCase() === planLevel) &&
+        (planCategory === 'all' || option.category === planCategory)),
   );
-  const isAdvancedPlan = plan.level === 'Advanced';
+  // Advanced lifting guidance applies to the strength plans only.
+  const isAdvancedPlan = plan.level === 'Advanced' && plan.category === 'strength';
+
+  const selectPlan = (option) => {
+    if (option.id === plan.id) return;
+    if (!option.requiresClearance) {
+      updateSettings({ planId: option.id });
+      return;
+    }
+    Alert.alert(option.name, `${option.clearanceNotice?.message ?? ''}
+
+Only choose this plan if your clinician has said exercise is suitable for you.`, [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'I have clinician clearance', onPress: () => updateSettings({ planId: option.id }) },
+    ]);
+  };
 
   return (
     <ScreenContainer>
@@ -68,7 +91,7 @@ export default function WorkoutScreen({ navigation }) {
         accessibilityHint="Weight calculator, warm-ups, safety coach and deadlift progress"
       >
         <View style={styles.planHeader}>
-          <Ionicons name="barbell-outline" size={28} color={colors.primary} />
+          <Ionicons name="barbell-outline" size={28} color={colors.accent} />
           <View style={styles.flex}>
             <Text style={styles.cardLabel}>Special planner</Text>
             <Text style={styles.cardTitle}>Deadlift Training Planner</Text>
@@ -79,6 +102,14 @@ export default function WorkoutScreen({ navigation }) {
       </FitnessCard>
 
       <SectionHeading title="Weekly plan" subtitle="Sample plans — your choice is saved on this device" />
+      <Text style={styles.filterLabel}>Training style</Text>
+      <ChipGroup
+        options={PLAN_CATEGORY_OPTIONS}
+        selectedId={planCategory}
+        onSelect={setPlanCategory}
+        accessibilityLabel="Filter plans by training style"
+      />
+      <Text style={styles.filterLabel}>Level</Text>
       <ChipGroup
         options={PLAN_LEVEL_OPTIONS}
         selectedId={planLevel}
@@ -92,22 +123,22 @@ export default function WorkoutScreen({ navigation }) {
             <FitnessCard
               key={option.id}
               variant={selected ? 'highlight' : 'default'}
-              onPress={() => updateSettings({ planId: option.id })}
+              onPress={() => selectPlan(option)}
               accessibilityRole="radio"
               accessibilityState={{ checked: selected }}
-              accessibilityLabel={`${option.name}, ${option.daysPerWeek} days per week, ${option.level}`}
+              accessibilityLabel={`${option.name}, ${getPlanCategoryName(option)}, ${option.daysPerWeek} days per week, ${option.level}`}
             >
               <View style={styles.planHeader}>
                 <View style={styles.flex}>
                   <Text style={styles.cardLabel}>
-                    {option.level} · {option.daysPerWeek} days/week
+                    {getPlanCategoryName(option)} · {option.level} · {option.daysPerWeek} days/week
                   </Text>
                   <Text style={styles.cardTitle}>{option.name}</Text>
                 </View>
                 <Ionicons
                   name={selected ? 'checkmark-circle' : 'ellipse-outline'}
                   size={26}
-                  color={selected ? colors.primary : colors.textSecondary}
+                  color={selected ? colors.accent : colors.textSecondary}
                 />
               </View>
               <Text style={styles.caption}>{option.description}</Text>
@@ -117,6 +148,8 @@ export default function WorkoutScreen({ navigation }) {
       </View>
 
       {isAdvancedPlan ? <Notice tone="warning" title="Advanced plan" message={ADVANCED_NOTICE} /> : null}
+      {plan.clearanceNotice ? <Notice {...plan.clearanceNotice} /> : null}
+      {plan.safetyNotice ? <Notice {...plan.safetyNotice} /> : null}
 
       <SectionHeading title="This week" subtitle={plan.name} />
       <View style={styles.list}>
@@ -185,10 +218,10 @@ export default function WorkoutScreen({ navigation }) {
         onPress={() => navigateSafely(navigation, ROUTES.EXERCISE_LIBRARY, { levelId: 'advanced' })}
       />
 
-      <SectionHeading title="Recovery guidance" />
+      <SectionHeading title={plan.notes ? 'Plan guidance & recovery' : 'Recovery guidance'} />
       <FitnessCard>
         <Text style={styles.caption}>{plan.recoveryNote}</Text>
-        {RECOVERY_GUIDANCE.map((tip) => (
+        {(plan.notes ?? RECOVERY_GUIDANCE).map((tip) => (
           <Text key={tip} style={styles.body}>
             •  {tip}
           </Text>
@@ -223,6 +256,10 @@ const styles = StyleSheet.create({
   caption: {
     ...typography.caption,
   },
+  filterLabel: {
+    ...typography.label,
+    marginBottom: -spacing.md,
+  },
   body: {
     ...typography.body,
   },
@@ -240,7 +277,7 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   mutedLabel: {
     color: colors.textSecondary,

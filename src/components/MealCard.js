@@ -23,7 +23,7 @@ export default function MealCard({ category, name, description, calories, protei
       {description ? <Text style={styles.description}>{description}</Text> : null}
       {estimateText ? (
         <View style={styles.estimate}>
-          <Ionicons name="flame-outline" size={16} color={colors.primary} />
+          <Ionicons name="flame-outline" size={16} color={colors.accent} />
           <Text style={styles.estimateText}>{estimateText}</Text>
         </View>
       ) : null}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   category: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   name: {
     ...typography.subheading,

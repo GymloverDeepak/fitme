@@ -1,9 +1,10 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { colors, radius, spacing } from '../theme';
+import { borders, colors, radius, spacing } from '../theme';
 
-// Rounded surface for grouping content. Pass onPress to make the whole card tappable.
-// variant: 'default' | 'highlight' (neon border) | 'accent' (neon background, use dark text inside)
+// Titanium surface for grouping content. Pass onPress to make the whole card tappable.
+// variant: 'default' | 'elevated' (lighter surface) | 'highlight' (electric-blue edge, for the
+// current / selected item) | 'accent' (solid electric blue, use colors.onAccent text inside)
 export default function FitnessCard({
   children,
   onPress,
@@ -14,7 +15,7 @@ export default function FitnessCard({
   accessibilityState,
   style,
 }) {
-  const cardStyle = [styles.card, variant === 'highlight' && styles.highlight, variant === 'accent' && styles.accent];
+  const cardStyle = [styles.card, VARIANT_STYLES[variant]];
 
   if (!onPress) {
     return <View style={[...cardStyle, style]}>{children}</View>;
@@ -40,24 +41,38 @@ export default function FitnessCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     borderRadius: radius.lg,
-    borderWidth: 1,
+    borderWidth: borders.thin,
     borderColor: colors.border,
     padding: spacing.lg,
     gap: spacing.md,
   },
+  elevated: {
+    backgroundColor: colors.surfaceElevated,
+    borderColor: colors.borderStrong,
+  },
   highlight: {
-    borderColor: colors.primary,
+    backgroundColor: colors.surfaceElevated,
+    borderColor: colors.accentMuted,
+    borderLeftWidth: borders.marker,
+    borderLeftColor: colors.accent,
   },
   accent: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: colors.accent,
+    borderColor: colors.accent,
   },
   pressed: {
-    backgroundColor: colors.cardPressed,
+    backgroundColor: colors.surfacePressed,
   },
   accentPressed: {
-    backgroundColor: colors.primaryPressed,
+    backgroundColor: colors.accentPressed,
   },
 });
+
+const VARIANT_STYLES = {
+  default: null,
+  elevated: styles.elevated,
+  highlight: styles.highlight,
+  accent: styles.accent,
+};

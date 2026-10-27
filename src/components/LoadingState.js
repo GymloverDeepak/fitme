@@ -6,7 +6,7 @@ import { colors, spacing, typography } from '../theme';
 export default function LoadingState({ message = 'Loading your data…' }) {
   return (
     <View style={styles.container} accessibilityLiveRegion="polite">
-      <ActivityIndicator size="large" color={colors.primary} />
+      <ActivityIndicator size="large" color={colors.accent} />
       <Text style={styles.message}>{message}</Text>
     </View>
   );

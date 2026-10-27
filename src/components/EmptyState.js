@@ -9,7 +9,7 @@ export default function EmptyState({ icon = 'leaf-outline', title, message, acti
   return (
     <View style={styles.container}>
       <View style={styles.iconRing}>
-        <Ionicons name={icon} size={28} color={colors.primary} />
+        <Ionicons name={icon} size={28} color={colors.accent} />
       </View>
       <Text style={styles.title} accessibilityRole="header">
         {title}
@@ -26,18 +26,19 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     paddingVertical: spacing.xxl,
     paddingHorizontal: spacing.xl,
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.border,
+    borderStyle: 'dashed',
   },
   iconRing: {
     width: 64,
     height: 64,
-    borderRadius: radius.pill,
-    borderWidth: 2,
-    borderColor: colors.primary,
-    backgroundColor: colors.primarySoft,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.accentMuted,
+    backgroundColor: colors.accentSoft,
     alignItems: 'center',
     justifyContent: 'center',
   },

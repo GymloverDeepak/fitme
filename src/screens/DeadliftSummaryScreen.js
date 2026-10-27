@@ -142,15 +142,15 @@ function Row({ label, text, detail, muted }) {
 const styles = StyleSheet.create({
   heroLabel: {
     ...typography.label,
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   heroTitle: {
     ...typography.title,
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   heroCaption: {
     ...typography.caption,
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   caption: {
     ...typography.caption,

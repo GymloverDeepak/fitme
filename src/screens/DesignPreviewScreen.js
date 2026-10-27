@@ -19,11 +19,16 @@ import { colors, radius, spacing, typography } from '../theme';
 // Reached from Settings → Developer, which is only shown in development builds.
 const SWATCHES = [
   ['Background', colors.background],
-  ['Card', colors.card],
-  ['Primary', colors.primary],
+  ['Background 2', colors.backgroundSecondary],
+  ['Surface', colors.surface],
+  ['Elevated', colors.surfaceElevated],
+  ['Accent', colors.accent],
   ['Text', colors.textPrimary],
   ['Secondary', colors.textSecondary],
   ['Border', colors.border],
+  ['Success', colors.success],
+  ['Warning', colors.warning],
+  ['Error', colors.error],
 ];
 
 export default function DesignPreviewScreen() {
@@ -160,6 +165,6 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
   darkText: {
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
 });

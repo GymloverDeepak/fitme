@@ -135,7 +135,7 @@ export default function DeadliftSetupScreen() {
           placeholderTextColor={colors.textSecondary}
           maxLength={200}
           multiline
-          selectionColor={colors.primary}
+          selectionColor={colors.accent}
           accessibilityLabel="Lifting limitation note"
           style={styles.textArea}
         />
@@ -337,26 +337,26 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   spaced: {
     marginTop: spacing.sm,
   },
   big: {
     ...typography.title,
-    color: colors.primary,
+    color: colors.accent,
   },
   bigSmall: {
     ...typography.subheading,
-    color: colors.primary,
+    color: colors.accent,
   },
   error: {
     ...typography.caption,
-    color: colors.danger,
+    color: colors.error,
   },
   ok: {
     ...typography.caption,
-    color: colors.primary,
+    color: colors.accent,
   },
   row: {
     flexDirection: 'row',
@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundSecondary,
     padding: spacing.md,
     textAlignVertical: 'top',
     ...typography.body,
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
   },
   removeText: {
     ...typography.subheading,
-    color: colors.danger,
+    color: colors.error,
   },
   chips: {
     flexDirection: 'row',
@@ -429,14 +429,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   chipOn: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: colors.accent,
+    borderColor: colors.accent,
   },
   chipText: {
     ...typography.bodyStrong,
   },
   chipTextOn: {
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   accessory: {
     gap: spacing.sm,

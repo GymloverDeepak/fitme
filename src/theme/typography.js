@@ -1,18 +1,20 @@
 import colors from './colors';
 
 // Text styles used across the app. Spread them into a StyleSheet: { ...typography.body }.
+// The metric styles use tabular figures so weights, reps and timers line up and don't jitter.
 const typography = {
   display: {
     fontSize: 32,
     lineHeight: 38,
     fontWeight: '800',
-    letterSpacing: 0.5,
+    letterSpacing: -0.3,
     color: colors.textPrimary,
   },
   title: {
     fontSize: 24,
     lineHeight: 30,
     fontWeight: '800',
+    letterSpacing: -0.2,
     color: colors.textPrimary,
   },
   heading: {
@@ -56,8 +58,25 @@ const typography = {
   button: {
     fontSize: 16,
     lineHeight: 20,
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+  // Big numbers: stat tiles, working weight, rest timer.
+  metric: {
+    fontSize: 28,
+    lineHeight: 34,
     fontWeight: '800',
-    letterSpacing: 0.5,
+    letterSpacing: -0.5,
+    fontVariant: ['tabular-nums'],
+    color: colors.textPrimary,
+  },
+  // Inline numbers inside rows and tables (weight × reps, set counts).
+  metricSmall: {
+    fontSize: 16,
+    lineHeight: 22,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+    color: colors.textPrimary,
   },
 };
 

@@ -1,4 +1,4 @@
-// Spacing scale, corner radii and layout constants shared by every screen.
+// Spacing scale, corner radii, borders and layout constants shared by every screen.
 export const spacing = {
   xs: 4,
   sm: 8,
@@ -8,12 +8,21 @@ export const spacing = {
   xxl: 32,
 };
 
+// Precise, restrained corners: cards stay crisp rather than bubbly.
 export const radius = {
-  sm: 8,
-  md: 12,
-  lg: 16,
-  xl: 24,
+  xs: 4,
+  sm: 6,
+  md: 10,
+  lg: 14,
+  xl: 20,
   pill: 999,
+};
+
+export const borders = {
+  thin: 1,
+  thick: 1.5,
+  // Left-edge marker on highlighted cards and the active set.
+  marker: 3,
 };
 
 export const layout = {

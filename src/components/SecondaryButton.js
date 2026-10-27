@@ -1,14 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
-import { colors, layout, radius, spacing, typography } from '../theme';
+import { borders, colors, layout, radius, spacing, typography } from '../theme';
 
 const TONES = {
-  accent: { color: colors.primary, pressedBackground: colors.primarySoft },
-  danger: { color: colors.danger, pressedBackground: colors.dangerSoft },
+  accent: { color: colors.accent, pressedBackground: colors.accentSoft },
+  danger: { color: colors.error, pressedBackground: colors.errorSoft },
 };
 
-// Outlined button for secondary actions. tone="danger" for destructive actions.
+// Outlined button on a faint titanium fill for secondary actions. tone="danger" for destructive actions.
 export default function SecondaryButton({
   title,
   onPress,
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
   button: {
     minHeight: layout.minTouchTarget + 4,
     borderRadius: radius.md,
-    borderWidth: 1.5,
-    backgroundColor: 'transparent',
+    borderWidth: borders.thin,
+    backgroundColor: colors.backgroundSecondary,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

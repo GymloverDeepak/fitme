@@ -8,6 +8,7 @@ import Notice from '../components/Notice';
 import NumberField from '../components/NumberField';
 import PrimaryButton from '../components/PrimaryButton';
 import ScreenContainer from '../components/ScreenContainer';
+import SecondaryButton from '../components/SecondaryButton';
 import SectionHeading from '../components/SectionHeading';
 import StatCard from '../components/StatCard';
 import StatRow from '../components/StatRow';
@@ -37,7 +38,7 @@ function DeleteButton({ label, onPress }) {
       onPress={onPress}
       style={({ pressed }) => [styles.deleteButton, pressed && styles.deletePressed]}
     >
-      <Ionicons name="trash-outline" size={20} color={colors.danger} />
+      <Ionicons name="trash-outline" size={20} color={colors.error} />
     </Pressable>
   );
 }
@@ -170,6 +171,12 @@ export default function ProgressScreen({ navigation }) {
           onSubmitEditing={handleSaveWeight}
         />
         <PrimaryButton title="Save weight" icon="scale-outline" onPress={handleSaveWeight} />
+        <SecondaryButton
+          title="BMI calculator"
+          icon="calculator-outline"
+          onPress={() => navigateSafely(navigation, ROUTES.BMI)}
+          accessibilityHint="Opens the BMI calculator"
+        />
         {weightChange !== null ? (
           <Text style={styles.caption}>
             Change since first entry: {weightChange > 0 ? '+' : ''}
@@ -312,7 +319,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   body: {
     ...typography.body,
@@ -322,11 +329,11 @@ const styles = StyleSheet.create({
   },
   accentText: {
     ...typography.bodyStrong,
-    color: colors.primary,
+    color: colors.accent,
   },
   errorText: {
     ...typography.caption,
-    color: colors.danger,
+    color: colors.error,
   },
   historyRow: {
     flexDirection: 'row',
@@ -360,6 +367,6 @@ const styles = StyleSheet.create({
     borderRadius: layout.minTouchTarget / 2,
   },
   deletePressed: {
-    backgroundColor: colors.dangerSoft,
+    backgroundColor: colors.errorSoft,
   },
 });

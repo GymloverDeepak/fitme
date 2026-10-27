@@ -73,6 +73,7 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
           <InfoRow label="Also works" value={exercise.secondaryMuscles.join(', ')} />
         ) : null}
         <InfoRow label="Equipment" value={exercise.equipment} />
+        {exercise.alternatives ? <InfoRow label="Alternative" value={exercise.alternatives} /> : null}
       </FitnessCard>
 
       <StatRow>
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   title: {
     ...typography.title,
@@ -144,11 +145,11 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.primary,
+    borderColor: colors.accent,
   },
   badgeText: {
     ...typography.caption,
-    color: colors.primary,
+    color: colors.accent,
     fontWeight: '700',
   },
   infoRow: {
@@ -176,14 +177,14 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     borderRadius: radius.pill,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
   },
   stepNumberText: {
     ...typography.caption,
     fontWeight: '800',
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   stepText: {
     ...typography.body,

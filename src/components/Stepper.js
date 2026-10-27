@@ -43,7 +43,7 @@ function StepButton({ icon, disabled, onPress, accessibilityLabel }) {
       onPress={onPress}
       style={({ pressed }) => [styles.button, pressed && styles.pressed, disabled && styles.disabled]}
     >
-      <Ionicons name={icon} size={20} color={disabled ? colors.textSecondary : colors.primary} />
+      <Ionicons name={icon} size={20} color={disabled ? colors.textSecondary : colors.accent} />
     </Pressable>
   );
 }
@@ -68,17 +68,19 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
+    backgroundColor: colors.surfaceElevated,
     alignItems: 'center',
     justifyContent: 'center',
   },
   pressed: {
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.accentSoft,
   },
   disabled: {
     opacity: 0.5,
   },
   value: {
-    ...typography.subheading,
+    ...typography.metricSmall,
+    fontSize: 18,
     minWidth: 40,
     textAlign: 'center',
     fontVariant: ['tabular-nums'],

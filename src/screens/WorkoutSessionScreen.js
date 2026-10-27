@@ -4,6 +4,7 @@ import EmptyState from '../components/EmptyState';
 import { ExerciseThumbnail } from '../components/ExerciseDemo';
 import ExerciseRow from '../components/ExerciseRow';
 import FitnessCard from '../components/FitnessCard';
+import Notice from '../components/Notice';
 import PrimaryButton from '../components/PrimaryButton';
 import ProgressBar from '../components/ProgressBar';
 import RestTimer from '../components/RestTimer';
@@ -97,6 +98,7 @@ export default function WorkoutSessionScreen({ navigation }) {
           {day.title}
         </Text>
         <Text style={styles.caption}>Started at {formatTime(activeSession.startedAt)}</Text>
+        {day.format ? <Text style={styles.caption}>{day.format}</Text> : null}
         <Text style={styles.count} accessibilityLiveRegion="polite">
           {completedCount} of {exercises.length} exercises · {progress.completedSets} of {progress.totalSets} working sets
         </Text>
@@ -105,6 +107,8 @@ export default function WorkoutSessionScreen({ navigation }) {
           accessibilityLabel="Working sets completed"
         />
       </FitnessCard>
+
+      {plan.requiresClearance && plan.safetyNotice ? <Notice {...plan.safetyNotice} /> : null}
 
       <RestTimer
         suggestedSeconds={nextExercise?.restSeconds ?? 90}
@@ -152,7 +156,7 @@ export default function WorkoutSessionScreen({ navigation }) {
 const styles = StyleSheet.create({
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   title: {
     ...typography.title,

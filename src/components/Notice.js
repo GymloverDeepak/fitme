@@ -1,12 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors, layout, radius, spacing, typography } from '../theme';
+import { borders, colors, layout, radius, spacing, typography } from '../theme';
 
 const TONES = {
-  info: { icon: 'information-circle-outline', color: colors.primary, background: colors.primarySoft },
+  info: { icon: 'information-circle-outline', color: colors.accent, background: colors.accentSoft },
   warning: { icon: 'warning-outline', color: colors.warning, background: colors.warningSoft },
-  danger: { icon: 'alert-circle-outline', color: colors.danger, background: colors.dangerSoft },
+  success: { icon: 'checkmark-circle-outline', color: colors.success, background: colors.successSoft },
+  danger: { icon: 'alert-circle-outline', color: colors.error, background: colors.errorSoft },
 };
 
 // Inline message box for disclaimers, sample-data labels and storage warnings.
@@ -14,7 +15,7 @@ export default function Notice({ tone = 'info', title, message, onDismiss }) {
   const palette = TONES[tone] ?? TONES.info;
   return (
     <View
-      style={[styles.container, { backgroundColor: palette.background, borderColor: palette.color }]}
+      style={[styles.container, { backgroundColor: palette.background, borderLeftColor: palette.color }]}
       accessibilityRole={tone === 'info' ? undefined : 'alert'}
     >
       <Ionicons name={palette.icon} size={20} color={palette.color} style={styles.icon} />
@@ -44,7 +45,9 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     padding: spacing.md,
     borderRadius: radius.md,
-    borderWidth: 1,
+    borderWidth: borders.thin,
+    borderColor: colors.border,
+    borderLeftWidth: borders.marker,
   },
   icon: {
     marginTop: 1,

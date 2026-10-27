@@ -157,8 +157,8 @@ function EntryEditor({ exercise, isFirst, isLast, onChange, onMove, onRemove }) 
           maxLength={ENTRY_LIMITS.repsMaxLength}
           placeholder="e.g. 8-12"
           placeholderTextColor={colors.textSecondary}
-          selectionColor={colors.primary}
-          cursorColor={colors.primary}
+          selectionColor={colors.accent}
+          cursorColor={colors.accent}
           accessibilityLabel={`Reps for ${exercise.name}`}
           style={[styles.repsInput, repsError && styles.repsInputError]}
         />
@@ -182,7 +182,7 @@ function IconButton({ icon, label, onPress, disabled = false, danger = false }) 
       onPress={onPress}
       style={({ pressed }) => [styles.iconButton, pressed && styles.iconPressed, disabled && styles.iconDisabled]}
     >
-      <Ionicons name={icon} size={20} color={danger ? colors.danger : colors.primary} />
+      <Ionicons name={icon} size={20} color={danger ? colors.error : colors.accent} />
     </Pressable>
   );
 }
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   title: {
     ...typography.title,
@@ -226,16 +226,16 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundSecondary,
     paddingHorizontal: spacing.md,
     ...typography.subheading,
   },
   repsInputError: {
-    borderColor: colors.danger,
+    borderColor: colors.error,
   },
   error: {
     ...typography.caption,
-    color: colors.danger,
+    color: colors.error,
   },
   iconButton: {
     width: layout.minTouchTarget,
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
   },
   iconPressed: {
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.accentSoft,
   },
   iconDisabled: {
     opacity: 0.35,

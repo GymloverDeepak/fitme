@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors, layout, spacing, typography } from '../theme';
+import { colors, layout, radius, spacing, typography } from '../theme';
 
 // Section title with optional subtitle and a text action on the right (e.g. "See all").
 export default function SectionHeading({ title, subtitle, actionLabel, onActionPress, actionAccessibilityLabel }) {
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
     minHeight: layout.minTouchTarget,
     justifyContent: 'center',
     paddingHorizontal: spacing.sm,
-    borderRadius: 8,
+    borderRadius: radius.sm,
   },
   actionPressed: {
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.accentSoft,
   },
   actionLabel: {
     ...typography.bodyStrong,
-    color: colors.primary,
+    color: colors.accent,
   },
 });

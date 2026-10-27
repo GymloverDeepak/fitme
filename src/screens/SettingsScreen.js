@@ -104,9 +104,9 @@ export default function SettingsScreen({ navigation }) {
       <SectionHeading title="Theme" />
       <FitnessCard>
         <View style={styles.themeRow}>
-          <Ionicons name="moon-outline" size={22} color={colors.primary} />
+          <Ionicons name="moon-outline" size={22} color={colors.accent} />
           <View style={styles.flex}>
-            <Text style={styles.bodyStrong}>Dark — black & neon green</Text>
+            <Text style={styles.bodyStrong}>Midnight Titanium — navy, titanium & electric blue</Text>
             <Text style={styles.caption}>
               FITME uses one high-contrast dark theme on every screen. It does not change with the phone’s light/dark
               setting.
@@ -114,7 +114,7 @@ export default function SettingsScreen({ navigation }) {
           </View>
         </View>
         <View style={styles.swatches}>
-          {[colors.background, colors.card, colors.primary, colors.textPrimary, colors.textSecondary].map((color) => (
+          {[colors.background, colors.surface, colors.surfaceElevated, colors.accent, colors.success, colors.textPrimary].map((color) => (
             <View key={color} style={[styles.swatch, { backgroundColor: color }]} />
           ))}
         </View>
@@ -142,7 +142,7 @@ export default function SettingsScreen({ navigation }) {
         accessibilityHint="Opens app version and offline information"
       >
         <View style={styles.themeRow}>
-          <Ionicons name="information-circle-outline" size={22} color={colors.primary} />
+          <Ionicons name="information-circle-outline" size={22} color={colors.accent} />
           <View style={styles.flex}>
             <Text style={styles.bodyStrong}>About FITME</Text>
             <Text style={styles.caption}>Version {APP_VERSION}</Text>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   caption: {
     ...typography.caption,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   goalNumber: {
     ...typography.display,
-    color: colors.primary,
+    color: colors.accent,
   },
   themeRow: {
     flexDirection: 'row',

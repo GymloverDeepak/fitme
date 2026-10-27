@@ -18,8 +18,8 @@ export default function NumberField({ label, value, onChangeText, unit, error, p
           inputMode="decimal"
           returnKeyType="done"
           maxLength={7}
-          selectionColor={colors.primary}
-          cursorColor={colors.primary}
+          selectionColor={colors.accent}
+          cursorColor={colors.accent}
           accessibilityLabel={unit ? `${label} in ${unit}` : label}
           accessibilityHint={error ?? undefined}
           style={styles.input}
@@ -51,15 +51,16 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundSecondary,
     paddingHorizontal: spacing.md,
   },
   inputRowError: {
-    borderColor: colors.danger,
+    borderColor: colors.error,
   },
   input: {
     flex: 1,
     ...typography.subheading,
+    fontVariant: ['tabular-nums'],
     paddingVertical: spacing.sm,
   },
   unit: {
@@ -68,6 +69,6 @@ const styles = StyleSheet.create({
   },
   error: {
     ...typography.caption,
-    color: colors.danger,
+    color: colors.error,
   },
 });

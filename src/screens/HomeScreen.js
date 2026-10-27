@@ -26,6 +26,7 @@ const QUICK_LINKS = [
   { route: ROUTES.DIET, label: 'Diet', caption: 'Indian meal plans', icon: 'restaurant-outline' },
   { route: ROUTES.PROGRESS, label: 'Progress', caption: 'Weight & history', icon: 'stats-chart-outline' },
   { route: ROUTES.SETTINGS, label: 'Settings', caption: 'Units & data', icon: 'settings-outline' },
+  { route: ROUTES.BMI, label: 'BMI', caption: 'Body mass index', icon: 'calculator-outline' },
 ];
 
 export default function HomeScreen({ navigation }) {
@@ -89,6 +90,7 @@ export default function HomeScreen({ navigation }) {
         actionAccessibilityLabel="Change workout plan"
         onActionPress={() => navigateSafely(navigation, ROUTES.WORKOUT)}
       />
+      {plan.requiresClearance && plan.safetyNotice ? <Notice {...plan.safetyNotice} /> : null}
       {day ? (
         <FitnessCard>
           <Text style={styles.cardTitle}>{day.title}</Text>
@@ -147,7 +149,7 @@ export default function HomeScreen({ navigation }) {
             onPress={() => navigateSafely(navigation, link.route)}
             style={({ pressed }) => [styles.tile, pressed && styles.tilePressed]}
           >
-            <Ionicons name={link.icon} size={26} color={colors.primary} />
+            <Ionicons name={link.icon} size={26} color={colors.accent} />
             <Text style={styles.tileLabel}>{link.label}</Text>
             <Text style={styles.caption}>{link.caption}</Text>
           </Pressable>
@@ -158,7 +160,7 @@ export default function HomeScreen({ navigation }) {
       <SectionHeading title="Fitness tip" />
       <FitnessCard>
         <View style={styles.tipRow}>
-          <Ionicons name="bulb-outline" size={22} color={colors.primary} />
+          <Ionicons name="bulb-outline" size={22} color={colors.accent} />
           <Text style={[styles.body, styles.tipText]}>{getDailyItem(FITNESS_TIPS, todayKey, tipOffset)}</Text>
         </View>
         <SecondaryButton title="Next tip" onPress={() => setTipOffset((offset) => offset + 1)} />
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
   },
   logoAccent: {
-    color: colors.primary,
+    color: colors.accent,
   },
   greeting: {
     ...typography.heading,
@@ -196,15 +198,15 @@ const styles = StyleSheet.create({
   },
   heroLabel: {
     ...typography.label,
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   heroQuote: {
     ...typography.heading,
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   cardLabel: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   cardTitle: {
     ...typography.subheading,
@@ -236,12 +238,12 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     justifyContent: 'center',
   },
   tilePressed: {
-    backgroundColor: colors.cardPressed,
-    borderColor: colors.primary,
+    backgroundColor: colors.surfacePressed,
+    borderColor: colors.accent,
   },
   tileLabel: {
     ...typography.subheading,

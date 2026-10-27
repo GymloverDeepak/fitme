@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { colors, layout, radius, spacing, typography } from '../theme';
 
-// Main call-to-action: solid neon green with dark text.
+// Main call-to-action: solid electric blue with dark text.
 export default function PrimaryButton({
   title,
   onPress,
@@ -24,7 +24,7 @@ export default function PrimaryButton({
       style={({ pressed }) => [styles.button, pressed && styles.pressed, disabled && styles.disabled, style]}
     >
       {icon ? (
-        <Ionicons name={icon} size={20} color={disabled ? colors.textSecondary : colors.onPrimary} />
+        <Ionicons name={icon} size={20} color={disabled ? colors.textSecondary : colors.onAccent} />
       ) : null}
       <Text style={[styles.label, disabled && styles.labelDisabled]} numberOfLines={2}>
         {title}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   button: {
     minHeight: layout.minTouchTarget + 4,
     borderRadius: radius.md,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
   },
   pressed: {
-    backgroundColor: colors.primaryPressed,
+    backgroundColor: colors.accentPressed,
     transform: [{ scale: 0.98 }],
   },
   disabled: {
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.button,
-    color: colors.onPrimary,
+    color: colors.onAccent,
     textAlign: 'center',
     flexShrink: 1,
   },

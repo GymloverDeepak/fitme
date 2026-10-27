@@ -1,24 +1,46 @@
-// Central colour palette for FITME. Import from '../theme' instead of hard-coding colours.
+// MIDNIGHT TITANIUM — central colour palette for FITME. Import from '../theme' instead of
+// hard-coding colours. Names are semantic: pick by meaning (surface, accent, error), not by hue.
 const colors = {
-  background: '#0A0A0A',
-  card: '#171717',
-  cardPressed: '#1F1F1F',
-  border: '#292929',
+  // Canvas
+  background: '#080D18',
+  backgroundSecondary: '#0F1726',
 
-  primary: '#B7FF00',
-  primaryPressed: '#9BD900',
-  primarySoft: 'rgba(183, 255, 0, 0.12)',
-  onPrimary: '#0A0A0A',
+  // Titanium surfaces (cards, inputs, sheets)
+  surface: '#182235',
+  surfaceElevated: '#202D42',
+  surfacePressed: '#26354D',
 
-  textPrimary: '#FFFFFF',
-  textSecondary: '#929292',
+  // Electric blue: selected controls and the main action on a screen
+  accent: '#42B8FF',
+  accentPressed: '#2586D8',
+  accentSoft: 'rgba(66, 184, 255, 0.14)',
+  accentMuted: 'rgba(66, 184, 255, 0.45)',
+  onAccent: '#061220',
 
-  danger: '#FF6B6B',
-  dangerSoft: 'rgba(255, 107, 107, 0.12)',
-  warningSoft: 'rgba(255, 196, 0, 0.10)',
-  warning: '#FFC400',
+  textPrimary: '#F4F7FC',
+  textSecondary: '#AAB7CA',
 
-  disabled: '#2E2E2E',
+  border: '#293A50',
+  borderStrong: '#3B5170',
+
+  // Status
+  success: '#35D39A',
+  successSoft: 'rgba(53, 211, 154, 0.14)',
+  onSuccess: '#04150F',
+  warning: '#FFB547',
+  warningSoft: 'rgba(255, 181, 71, 0.12)',
+  error: '#FF626C',
+  errorSoft: 'rgba(255, 98, 108, 0.12)',
+
+  disabled: '#253246',
+
+  // Illustration colours for the exercise demonstrations
+  metal: '#C3CCD9',
+  metalDark: '#5B6B82',
+  ghost: 'rgba(244, 247, 252, 0.22)',
+
+  // The Gym Lover Deepak artwork is black on transparency and needs a light badge to stay visible.
+  logoBadge: '#FFFFFF',
 };
 
 export default colors;

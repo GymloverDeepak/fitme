@@ -254,7 +254,7 @@ export default function DeadliftSessionScreen({ navigation }) {
           placeholderTextColor={colors.textSecondary}
           multiline
           maxLength={DEADLIFT_LIMITS.notesLength}
-          selectionColor={colors.primary}
+          selectionColor={colors.accent}
           accessibilityLabel="Session notes"
           style={styles.textArea}
         />
@@ -285,7 +285,7 @@ function DoneBox({ done, label, onToggle }) {
 const styles = StyleSheet.create({
   label: {
     ...typography.label,
-    color: colors.primary,
+    color: colors.accent,
   },
   title: {
     ...typography.title,
@@ -343,15 +343,15 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   doneBoxOn: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: colors.accent,
+    borderColor: colors.accent,
   },
   doneText: {
     ...typography.heading,
     color: colors.textPrimary,
   },
   doneTextOn: {
-    color: colors.onPrimary,
+    color: colors.onAccent,
   },
   row: {
     flexDirection: 'row',
@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundSecondary,
     padding: spacing.md,
     textAlignVertical: 'top',
     ...typography.body,

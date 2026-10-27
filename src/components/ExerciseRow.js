@@ -30,7 +30,7 @@ export default function ExerciseRow({
     <>
       {isChecklist ? (
         <View style={[styles.check, completed && styles.checkDone]}>
-          {completed ? <Ionicons name="checkmark" size={18} color={colors.onPrimary} /> : null}
+          {completed ? <Ionicons name="checkmark" size={18} color={colors.onSuccess} /> : null}
         </View>
       ) : typeof index === 'number' && !thumbnail ? (
         <View style={styles.indexBadge}>
@@ -84,7 +84,7 @@ export default function ExerciseRow({
             <Ionicons
               name={sideButton.icon}
               size={24}
-              color={sideButton.disabled ? colors.textSecondary : colors.primary}
+              color={sideButton.disabled ? colors.textSecondary : colors.accent}
             />
           </Pressable>
         ) : null}
@@ -96,7 +96,7 @@ export default function ExerciseRow({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.card,
+    backgroundColor: colors.surface,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
   },
   pressed: {
-    backgroundColor: colors.cardPressed,
+    backgroundColor: colors.surfacePressed,
   },
   check: {
     width: 28,
@@ -128,21 +128,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkDone: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: colors.success,
+    borderColor: colors.success,
   },
   indexBadge: {
     width: 28,
     height: 28,
-    borderRadius: radius.pill,
-    backgroundColor: colors.primarySoft,
+    borderRadius: radius.sm,
+    backgroundColor: colors.accentSoft,
     alignItems: 'center',
     justifyContent: 'center',
   },
   indexText: {
     ...typography.caption,
-    color: colors.primary,
+    color: colors.accent,
     fontWeight: '700',
+    fontVariant: ['tabular-nums'],
   },
   text: {
     flex: 1,

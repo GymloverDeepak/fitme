@@ -76,7 +76,11 @@ function Countdown({ seconds, onLock, onUnlock }) {
       >
         {formatTimer(timer.remainingSeconds)}
       </Text>
-      <ProgressBar progress={timer.progress} accessibilityLabel="Rest time elapsed" />
+      <ProgressBar
+        progress={timer.progress}
+        tone={timer.status === 'finished' ? 'success' : 'accent'}
+        accessibilityLabel="Rest time elapsed"
+      />
       <Text style={[styles.status, timer.status === 'finished' && styles.statusDone]} accessibilityLiveRegion="polite">
         {STATUS_TEXT[timer.status]}
       </Text>
@@ -116,14 +120,13 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   time: {
-    ...typography.display,
+    ...typography.metric,
     fontSize: 56,
     lineHeight: 64,
     textAlign: 'center',
-    fontVariant: ['tabular-nums'],
   },
   timeDone: {
-    color: colors.primary,
+    color: colors.success,
   },
   status: {
     ...typography.caption,
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
   },
   statusDone: {
     ...typography.bodyStrong,
-    color: colors.primary,
+    color: colors.success,
   },
   buttons: {
     flexDirection: 'row',
