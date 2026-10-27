@@ -1,13 +1,19 @@
-/* FITME website — black & neon green. System fonts only (fast, no downloads). */
+/* FITME website — Midnight Titanium (matches the app). System fonts only (fast, no downloads). */
 :root {
-  --bg: #0a0a0a;
-  --bg-alt: #101010;
-  --card: #171717;
-  --border: #292929;
-  --neon: #b7ff00;
-  --neon-soft: rgba(183, 255, 0, 0.12);
-  --text: #ffffff;
-  --muted: #a3a3a3;
+  --bg: #080d18;
+  --bg-alt: #0f1726;
+  --card: #182235;
+  --card-elevated: #202d42;
+  --border: #293a50;
+  --accent: #42b8ff;
+  --accent-pressed: #2586d8;
+  --accent-soft: rgba(66, 184, 255, 0.14);
+  --on-accent: #061220;
+  --text: #f4f7fc;
+  --muted: #aab7ca;
+  --success: #35d39a;
+  --warning: #ffb547;
+  --error: #ff626c;
   --radius: 18px;
   --max: 1120px;
   color-scheme: dark;
@@ -59,15 +65,15 @@ h3 {
 }
 
 .accent {
-  color: var(--neon);
+  color: var(--accent);
 }
 
 .skip-link {
   position: absolute;
   left: -999px;
   top: 8px;
-  background: var(--neon);
-  color: #000;
+  background: var(--accent);
+  color: var(--on-accent);
   padding: 8px 14px;
   border-radius: 8px;
   z-index: 100;
@@ -78,7 +84,7 @@ h3 {
 }
 
 :focus-visible {
-  outline: 3px solid var(--neon);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -89,7 +95,7 @@ h3 {
   justify-content: center;
   border-radius: 50%;
   background: #fff;
-  border: 3px solid var(--neon);
+  border: 3px solid var(--accent);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -115,7 +121,7 @@ h3 {
   width: min(320px, 70vw);
   height: min(320px, 70vw);
   border-width: 5px;
-  box-shadow: 0 0 80px rgba(183, 255, 0, 0.25);
+  box-shadow: 0 0 70px rgba(66, 184, 255, 0.22);
 }
 
 /* ---------- Header ---------- */
@@ -123,7 +129,7 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(8, 13, 24, 0.85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 }
@@ -162,7 +168,7 @@ h3 {
 }
 
 .nav a:hover {
-  color: var(--neon);
+  color: var(--accent);
 }
 
 .menu-button {
@@ -198,7 +204,7 @@ h3 {
   inset: -40% -20% auto auto;
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(183, 255, 0, 0.18), transparent 60%);
+  background: radial-gradient(circle, rgba(66, 184, 255, 0.16), transparent 60%);
   pointer-events: none;
 }
 
@@ -212,7 +218,7 @@ h3 {
 
 .eyebrow {
   margin: 0 0 12px;
-  color: var(--neon);
+  color: var(--accent);
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -290,14 +296,14 @@ h3 {
 }
 
 .button--primary {
-  background: var(--neon);
-  color: #0a0a0a;
-  box-shadow: 0 10px 40px rgba(183, 255, 0, 0.25);
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 10px 32px rgba(66, 184, 255, 0.22);
 }
 
 .button--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 48px rgba(183, 255, 0, 0.35);
+  box-shadow: 0 14px 40px rgba(66, 184, 255, 0.3);
 }
 
 .button--primary:active {
@@ -305,8 +311,8 @@ h3 {
 }
 
 .button:disabled {
-  background: #2e2e2e;
-  color: #8a8a8a;
+  background: #253246;
+  color: #8b98ac;
   box-shadow: none;
   cursor: not-allowed;
   transform: none;
@@ -361,7 +367,7 @@ h3 {
 }
 
 .card:hover {
-  border-color: var(--neon);
+  border-color: var(--accent);
   transform: translateY(-3px);
 }
 
@@ -372,8 +378,8 @@ h3 {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: var(--neon-soft);
-  color: var(--neon);
+  background: var(--accent-soft);
+  color: var(--accent);
   margin-bottom: 16px;
 }
 
@@ -401,7 +407,7 @@ h3 {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 4px max(20px, calc((100vw - var(--max)) / 2 + 20px)) 20px;
-  scrollbar-color: var(--neon) transparent;
+  scrollbar-color: var(--accent) transparent;
 }
 
 .shot {
@@ -415,8 +421,8 @@ h3 {
 .shot img {
   width: 100%;
   border-radius: 26px;
-  border: 3px solid #222;
-  background: #000;
+  border: 3px solid #1b2638;
+  background: #05080f;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
@@ -449,8 +455,8 @@ h3 {
   flex: 0 0 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--neon);
-  color: #000;
+  background: var(--accent);
+  color: var(--on-accent);
   font-weight: 900;
   display: inline-flex;
   align-items: center;
@@ -470,8 +476,8 @@ h3 {
 .notes {
   margin-top: 28px;
   padding: 20px 24px;
-  border-left: 4px solid var(--neon);
-  background: var(--neon-soft);
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
   border-radius: 12px;
 }
 
@@ -502,7 +508,7 @@ h3 {
 
 .credit-name {
   margin: 0;
-  color: var(--neon);
+  color: var(--accent);
   font-size: 1.6rem;
   font-weight: 900;
 }
@@ -520,11 +526,11 @@ h3 {
 }
 
 .email svg {
-  color: var(--neon);
+  color: var(--accent);
 }
 
 .email:hover {
-  background: var(--neon-soft);
+  background: var(--accent-soft);
 }
 
 .socials {
@@ -541,7 +547,7 @@ h3 {
   border-radius: 50%;
   border: 1px solid var(--border);
   background: var(--card);
-  color: var(--neon);
+  color: var(--accent);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -549,14 +555,14 @@ h3 {
 }
 
 .socials a:hover {
-  border-color: var(--neon);
-  background: var(--neon-soft);
+  border-color: var(--accent);
+  background: var(--accent-soft);
   transform: translateY(-2px);
 }
 
 .copyright {
   margin: 28px 0 0;
-  color: #6b6b6b;
+  color: #8b98ac;
   font-size: 0.85rem;
 }
 

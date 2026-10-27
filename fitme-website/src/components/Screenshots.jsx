@@ -3,11 +3,12 @@ import useReveal from '../useReveal.js';
 // Real screenshots of FITME running on a Samsung Galaxy Z Fold6 (cover screen).
 const SHOTS = [
   { src: '/screenshots/home.jpg', caption: 'Home dashboard' },
-  { src: '/screenshots/workout-planner.jpg', caption: 'Workout planner' },
+  { src: '/screenshots/workout-planner.jpg', caption: 'Training styles' },
+  { src: '/screenshots/training-styles.jpg', caption: 'HYROX-style plans' },
   { src: '/screenshots/exercise-library.jpg', caption: 'Exercise library' },
-  { src: '/screenshots/exercise-demo.jpg', caption: 'Animated demonstration' },
-  { src: '/screenshots/deadlift-planner.jpg', caption: 'Deadlift planner' },
+  { src: '/screenshots/exercise-demo.jpg', caption: 'Animated demonstrations' },
   { src: '/screenshots/deadlift-session.jpg', caption: 'Deadlift session' },
+  { src: '/screenshots/bmi-calculator.jpg', caption: 'BMI calculator' },
 ];
 
 export default function Screenshots() {

@@ -1,5 +1,5 @@
 # Prepares website images from the FITME app's real assets and real device screenshots.
-# Usage (from fitme-website): powershell -ExecutionPolicy Bypass -File scripts\prepare-images.ps1 <screenshotFolder>
+# Usage (from fitme-website): powershell -NoProfile -File scripts\prepare-images.ps1 <screenshotFolder>
 param([string]$ScreenshotFolder)
 Add-Type -AssemblyName System.Drawing
 
@@ -32,24 +32,24 @@ Copy-Item (Join-Path $app 'assets\images\gymlover-deepak-logo.png') (Join-Path $
 $icon = Resize (Join-Path $app 'assets\icon.png') 180; $icon.Save((Join-Path $public 'apple-touch-icon.png'), [System.Drawing.Imaging.ImageFormat]::Png); $icon.Dispose()
 $fav = Resize (Join-Path $app 'assets\icon.png') 64; $fav.Save((Join-Path $public 'favicon.png'), [System.Drawing.Imaging.ImageFormat]::Png); $fav.Dispose()
 
-# Open Graph image (1200x630): app icon + FITME wordmark on black.
+# Open Graph image (1200x630): app icon + FITME wordmark on midnight navy (Midnight Titanium theme).
 $og = New-Object System.Drawing.Bitmap 1200, 630
 $g = [System.Drawing.Graphics]::FromImage($og)
 $g.SmoothingMode = 'AntiAlias'; $g.TextRenderingHint = 'AntiAliasGridFit'; $g.InterpolationMode = 'HighQualityBicubic'
-$g.Clear([System.Drawing.Color]::FromArgb(255, 10, 10, 10))
+$g.Clear([System.Drawing.Color]::FromArgb(255, 8, 13, 24))
 $appIcon = [System.Drawing.Image]::FromFile((Join-Path $app 'assets\icon.png'))
 $g.DrawImage($appIcon, 80, 115, 400, 400); $appIcon.Dispose()
-$neon = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 183, 255, 0))
-$white = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::White)
-$grey = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 146, 146, 146))
+$accent = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 66, 184, 255))
+$white = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 244, 247, 252))
+$grey = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 170, 183, 202))
 $tight = [System.Drawing.StringFormat]::GenericTypographic
 $big = New-Object System.Drawing.Font 'Arial Black', 120, ([System.Drawing.FontStyle]::Regular), ([System.Drawing.GraphicsUnit]::Pixel)
 $fitWidth = $g.MeasureString('FIT', $big, 2000, $tight).Width
 $g.DrawString('FIT', $big, $white, 540, 150, $tight)
-$g.DrawString('ME', $big, $neon, (540 + $fitWidth), 150, $tight)
+$g.DrawString('ME', $big, $accent, (540 + $fitWidth), 150, $tight)
 $mid = New-Object System.Drawing.Font 'Segoe UI', 40, ([System.Drawing.FontStyle]::Bold), ([System.Drawing.GraphicsUnit]::Pixel)
 $small = New-Object System.Drawing.Font 'Segoe UI', 30, ([System.Drawing.FontStyle]::Regular), ([System.Drawing.GraphicsUnit]::Pixel)
-$g.DrawString('YOUR FITNESS. YOUR RULES.', $mid, $neon, 545, 320)
+$g.DrawString('YOUR FITNESS. YOUR RULES.', $mid, $accent, 545, 320)
 $g.DrawString('Offline Android fitness app', $small, $white, 545, 390)
 $g.DrawString('by Gymlover Deepak', $small, $grey, 545, 435)
 $g.Dispose()
@@ -58,13 +58,15 @@ $og.Dispose()
 
 # Real screenshots from the FITME app running on a Galaxy Z Fold6 (cover screen).
 if ($ScreenshotFolder) {
+  # v1.1.1 screenshots (Midnight Titanium theme).
   $map = [ordered]@{
-    'home.jpg'              = 'final-4630947194243491972.png'
-    'workout-planner.jpg'   = 'v110-workout-after.png'
-    'exercise-library.jpg'  = 'v110-library-list.png'
-    'exercise-demo.jpg'     = 'v110-plan-mid.png'
-    'deadlift-planner.jpg'  = 'v110-deadlift-1.png'
-    'deadlift-session.jpg'  = 'v110-session-ticked.png'
+    'home.jpg'              = 'home.png'
+    'workout-planner.jpg'   = 'training-filter.png'
+    'training-styles.jpg'   = 'hyrox-plans.png'
+    'exercise-library.jpg'  = 'library.jpg'
+    'exercise-demo.jpg'     = 'demos.jpg'
+    'deadlift-session.jpg'  = 'deadlift-session.jpg'
+    'bmi-calculator.jpg'    = 'bmi.png'
   }
   foreach ($name in $map.Keys) {
     $source = Join-Path $ScreenshotFolder $map[$name]

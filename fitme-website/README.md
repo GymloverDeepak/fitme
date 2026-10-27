@@ -27,9 +27,9 @@ Settings (all **public** — they are visible in the browser, so never put secre
 
 | Variable | Required | Example | Shown on the site |
 | --- | --- | --- | --- |
-| `VITE_APK_URL` | Yes, to enable the button | `https://github.com/<you>/<repo>/releases/download/v1.1.0/FITME-v1.1.0.apk` | Button opens this link |
-| `VITE_APK_VERSION` | Optional | `1.1.0` | “Version 1.1.0” under the button |
-| `VITE_APK_SIZE` | Optional | `38.4 MB` | Size under the button |
+| `VITE_APK_URL` | Yes, to enable the button | `https://github.com/<you>/<repo>/releases/download/v1.1.1/FITME-v1.1.1.apk` | Button opens this link |
+| `VITE_APK_VERSION` | Optional | `1.1.1` | “Version 1.1.1” under the button |
+| `VITE_APK_SIZE` | Optional | `38.5 MB` | Size under the button |
 
 Only `https://` links are accepted. Fill in version and size from the real APK file.
 
@@ -69,7 +69,7 @@ fitme-website/
     config.js              APK settings (from env vars), contact email, social links
     App.jsx, main.jsx      Page layout
     components/            Header, Hero (download button), Features, Screenshots, Install, Footer
-    styles.css             Black & neon-green design, responsive layout, reduced-motion support
+    styles.css             Midnight Titanium design (matches the app), responsive layout, reduced-motion support
     useReveal.js           Subtle fade-in on scroll
   public/
     logo.png               The GYM LOVER Deepak logo (copied from the app's assets)
@@ -81,6 +81,6 @@ fitme-website/
 
 ## Notes
 
-- Feature descriptions match FITME v1.1.0. Update `src/components/Features.jsx` when the app changes.
+- Feature descriptions match FITME v1.1.1. Update `src/components/Features.jsx` when the app changes.
 - Open Graph image URLs are relative (`/og-image.jpg`). Most platforms resolve them against your site; for
   best results on every platform, change them to your full Vercel URL in `index.html` after the first deploy.
